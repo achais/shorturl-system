@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Events;
+
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+
+class UrlRequested
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    protected $key;
+
+    protected $requestTimestamp;
+
+    protected $ip;
+
+    public function __construct($key, $requestTimestamp, $ip)
+    {
+        $this->key = $key;
+        $this->requestTimestamp = $requestTimestamp;
+        $this->ip = $ip;
+    }
+
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    public function getRequestTimestamp()
+    {
+        return $this->requestTimestamp;
+    }
+
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return \Illuminate\Broadcasting\Channel|array
+     */
+    public function broadcastOn()
+    {
+        return new PrivateChannel('channel-name');
+    }
+}
